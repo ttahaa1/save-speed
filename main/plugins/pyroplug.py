@@ -1,5 +1,3 @@
-#Github.com-Vasusen-code
-
 import asyncio, time, os
 
 from .. import bot as Drone
@@ -21,11 +19,6 @@ def thumbnail(sender):
          return None
       
 async def get_msg(userbot, client, bot, sender, edit_id, msg_link, i):
-    
-    """ userbot: PyrogramUserBot
-    client: PyrogramBotClient
-    bot: TelethonBotClient """
-    
     edit = ""
     chat = ""
     round_message = False
