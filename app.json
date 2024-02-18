@@ -1,7 +1,7 @@
 {
     "name": "Save restricted content bot",
-    "description": "Telegram bot to save restricted content.",
-    "logo": "",
+    "description": " بوت تيليجرام لحفظ المحتوي من القنوات المقيده @tcrep -- Telegram bot to save restricted content.",
+    "logo": "https://i.pinimg.com/280x280_RS/e4/15/28/e41528cf09ce22fc8e046ef0971cc839.jpg",
     "keywords": [
         "telegram",
         "Save restricted content",
@@ -12,27 +12,27 @@
     "success_url": "https://t.me/DroneBots",
     "env": {
         "API_HASH": {
-            "description": "Your API HASH from my.telegram.org",
+            "description": "ادخل  API HASH تجيبه من هنا.telegram.org",
             "value": ""
         },
         "API_ID": {
-            "description": "Your API ID from my.telegram.org",
+            "description": "ادخل API ID تجيبه من هنا.telegram.org",
             "value": ""
         },
         "BOT_TOKEN": {
-            "description": "Bot token, get it from @BotFather.",
+            "description": "توكن بوتك, تجيبه من البوت دا  @BotFather.",
             "value": ""
         },
         "SESSION": {
-            "description": "Pyrogram string session.",
+            "description": "Pyrogram string session الجلسه .",
             "value": ""
         },
         "AUTH": {
-            "description": "User ID of Bot owner.",
+            "description": "ايدي المالك للبوت id.",
             "value": ""
         },
         "FORCESUB": {
-            "description": "Username name of public channel without using '@'.",
+            "description": "اسم قناة الاشتراك الاجباري لبوتك مهم ولا تنسا رفع البوت ادمن في القناه مهم جدا '@'.",
             "value": ""
         }
     },
