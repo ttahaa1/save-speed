@@ -1,7 +1,10 @@
-import time, os, asyncio
+import time
+import os
+import asyncio
 
 from .. import bot as Drone
 from .. import userbot, Bot, AUTH
+from .. import FORCESUB as fs
 from main.plugins.pyroplug import get_bulk_msg
 from main.plugins.helpers import get_link, screenshot
 
@@ -14,7 +17,7 @@ from pyrogram.errors import FloodWait
 from ethon.pyfunc import video_metadata
 from ethon.telefunc import force_sub
 
-ft = f"يجب عليك الانضمام إلى @{fs} لاستخدام هذا البوت."
+ft = f"لإستخدام هذا البوت يجب الإنضمام إلى القناة @{fs}."
 
 batch = []
 
