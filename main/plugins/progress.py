@@ -39,11 +39,11 @@ async def progress_for_pyrogram(
             ''.join([UN_FINISHED_PROGRESS_STR for i in range(10 - math.floor(percentage / 10))]),
             round(percentage, 2))
 
-        tmp = progress + "GROSSS: {0} of {1}\n\nSpeed: {2}/s\n\nETA: {3}\n".format(
+        tmp = progress + "تنزيل: {0} من {1}\n\nالسرعة: {2}/ثانية\n\nالوقت المتوقع للانتهاء: {3}\n".format(
             humanbytes(current),
             humanbytes(total),
             humanbytes(speed),
-            estimated_total_time if estimated_total_time != '' else "0 s"
+            estimated_total_time if estimated_total_time != '' else "0 ثانية"
         )
         try:
             if not message.photo:
@@ -69,11 +69,11 @@ def humanbytes(size):
         return ""
     power = 2**10
     n = 0
-    Dic_powerN = {0: ' ', 1: 'Ki', 2: 'Mi', 3: 'Gi', 4: 'Ti'}
+    Dic_powerN = {0: ' ', 1: 'كيلو', 2: 'ميجا', 3: 'جيجا', 4: 'تيرا'}
     while size > power:
         size /= power
         n += 1
-    return str(round(size, 2)) + " " + Dic_powerN[n] + 'B'
+    return str(round(size, 2)) + " " + Dic_powerN[n] + 'بايت'
 
 
 def TimeFormatter(milliseconds: int) -> str:
@@ -81,8 +81,8 @@ def TimeFormatter(milliseconds: int) -> str:
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
-    tmp = ((str(days) + "d, ") if days else "") + \
-        ((str(hours) + "h, ") if hours else "") + \
-        ((str(minutes) + "m, ") if minutes else "") + \
-        ((str(seconds) + "s, ") if seconds else "")
+    tmp = ((str(days) + "يوم, ") if days else "") + \
+        ((str(hours) + "ساعة, ") if hours else "") + \
+        ((str(minutes) + "دقيقة, ") if minutes else "") + \
+        ((str(seconds) + "ثانية, ") if seconds else "")
     return tmp[:-2]

@@ -1,5 +1,3 @@
-#Github.com/Vasusen-code
-
 import time, os
 
 from .. import bot as Drone
@@ -13,9 +11,9 @@ from pyrogram.errors import FloodWait
 
 from ethon.telefunc import force_sub
 
-ft = f"To use this bot you've to join @{fs}."
+ft = f"يجب عليك الانضمام إلى @{fs} لاستخدام هذا البوت."
 
-message = "Send me the message link you want to start saving from, as a reply to this message."
+message = "أرسل لي رابط الرسالة التي تريد بدء الحفظ منها كرد على هذه الرسالة."
 
 @Drone.on(events.NewMessage(incoming=True, func=lambda e: e.is_private))
 async def clone(event):
@@ -33,7 +31,7 @@ async def clone(event):
     if s == True:
         await event.reply(r)
         return
-    edit = await event.reply("Processing!")
+    edit = await event.reply("جاري المعالجة!")
     try:
         if 't.me/+' in link:
             q = await join(userbot, link)
@@ -42,8 +40,7 @@ async def clone(event):
         if 't.me/' in link:
             await get_msg(userbot, Bot, Drone, event.sender_id, edit.id, link, 0)
     except FloodWait as fw:
-        return await Drone.send_message(event.sender_id, f'Try again after {fw.x} seconds due to floodwait from telegram.')
+        return await Drone.send_message(event.sender_id, f"حاول مرة أخرى بعد {fw.x} ثانية بسبب انتظار التحكم في الفيض من تليجرام.")
     except Exception as e:
         print(e)
-        await Drone.send_message(event.sender_id, f"An error occurred during cloning of `{link}`\n\n**Error:** {str(e)}")
-    
+        await Drone.send_message(event.sender_id, f"حدث خطأ أثناء عملية الاستنساخ من `{link}`\n\n**الخطأ:** {str(e)}")

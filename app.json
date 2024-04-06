@@ -1,7 +1,7 @@
 {
     "name": "Save restricted content bot",
     "description": " بوت تيليجرام لحفظ المحتوي من القنوات المقيده @tcrep1 -- Telegram bot to save restricted content.",
-    "logo": "https://telegra.ph/file/40ed5fa1c409c432d4a1d.jpg",
+    "logo": "https://telegra.ph/file/9a475a189b8cbf68f3047.jpg",
     "keywords": [
         "telegram",
         "Save restricted content",
@@ -9,7 +9,7 @@
     ],
     "repository": "ᔆ ᴾ ᴱ ᴱ ᴰ ™𝓼",
     "website": "",
-    "success_url": "https://t.me/l_s_I_I",
+    "success_url": "https://t.me/tcrep1",
     "env": {
         "API_HASH": {
             "description": "ادخل  API HASH تجيبه من هنا.telegram.org",

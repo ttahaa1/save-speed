@@ -26,11 +26,11 @@ userbot = Client("saverestricted", session_string=SESSION, api_hash=API_HASH, ap
 try:
     userbot.start()
 except BaseException:
-    print("Userbot Error ! Have you added SESSION while deploying??")
+    print("خطأ في مستخدم البوت! هل قمت بإضافة SESSION أثناء النشر؟؟")
     sys.exit(1)
 
 Bot = Client(
-    "SaveRestricted",
+    "حفظ_المقيد"",
     bot_token=BOT_TOKEN,
     api_id=int(API_ID),
     api_hash=API_HASH

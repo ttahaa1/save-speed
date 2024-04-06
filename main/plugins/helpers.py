@@ -1,5 +1,3 @@
-#Github.com/Vasusen-code
-
 from pyrogram.errors import FloodWait, InviteHashInvalid, InviteHashExpired, UserAlreadyParticipant
 from telethon import errors, events
 
@@ -7,28 +5,27 @@ import asyncio, subprocess, re, os, time
 from pathlib import Path
 from datetime import datetime as dt
 
-#Join private chat-------------------------------------------------------------------------------------------------------------
+# الانضمام إلى الدردشة الخاصة -----------------------------------------------------------------------------------------
 
 async def join(client, invite_link):
     try:
         await client.join_chat(invite_link)
-        return "Successfully joined the Channel"
+        return "تم الانضمام بنجاح إلى القناة"
     except UserAlreadyParticipant:
-        return "User is already a participant."
+        return "المستخدم مشترك بالفعل."
     except (InviteHashInvalid, InviteHashExpired):
-        return "Could not join. Maybe your link is expired or Invalid."
+        return "لا يمكن الانضمام. ربما انتهت صلاحية الرابط أو غير صالح."
     except FloodWait:
-        return "Too many requests, try again later."
+        return "طلبات كثيرة جدًا، جرب مرة أخرى في وقت لاحق."
     except Exception as e:
         print(e)
-        return "Could not join, try joining manually."
+        return "لا يمكن الانضمام، جرب الانضمام يدويًا."
     
-#Regex---------------------------------------------------------------------------------------------------------------
-#to get the url from event
+# Regex ---------------------------------------------------------------------------------------------------------------
 
 def get_link(string):
     regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
-    url = re.findall(regex,string)   
+    url = re.findall(regex, string)   
     try:
         link = [x[0] for x in url][0]
         if link:
@@ -38,7 +35,7 @@ def get_link(string):
     except Exception:
         return False
     
-#Screenshot---------------------------------------------------------------------------------------------------------------
+# Screenshot ---------------------------------------------------------------------------------------------------------------
 
 def hhmmss(seconds):
     x = time.strftime('%H:%M:%S',time.gmtime(seconds))
@@ -70,4 +67,4 @@ async def screenshot(video, duration, sender):
     if os.path.isfile(out):
         return out
     else:
-        None       
+        None

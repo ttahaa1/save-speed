@@ -1,23 +1,34 @@
-import asyncio, time, os
+import asyncio
+import os
+import time
 
 from .. import bot as Drone
 from main.plugins.progress import progress_for_pyrogram
 from main.plugins.helpers import screenshot
 
 from pyrogram import Client, filters
-from pyrogram.errors import ChannelBanned, ChannelInvalid, ChannelPrivate, ChatIdInvalid, ChatInvalid, PeerIdInvalid
+from pyrogram.errors import (
+    ChannelBanned,
+    ChannelInvalid,
+    ChannelPrivate,
+    ChatIdInvalid,
+    ChatInvalid,
+    PeerIdInvalid
+)
 from pyrogram.enums import MessageMediaType
 from ethon.pyfunc import video_metadata
 from ethon.telefunc import fast_upload
 from telethon.tl.types import DocumentAttributeVideo
 from telethon import events
 
+
 def thumbnail(sender):
     if os.path.exists(f'{sender}.jpg'):
         return f'{sender}.jpg'
     else:
-         return None
-      
+        return None
+
+
 async def get_msg(userbot, client, bot, sender, edit_id, msg_link, i):
     edit = ""
     chat = ""
@@ -35,36 +46,36 @@ async def get_msg(userbot, client, bot, sender, edit_id, msg_link, i):
         try:
             msg = await userbot.get_messages(chat, msg_id)
             if msg.media:
-                if msg.media==MessageMediaType.WEB_PAGE:
-                    edit = await client.edit_message_text(sender, edit_id, "Cloning.")
+                if msg.media == MessageMediaType.WEB_PAGE:
+                    edit = await client.edit_message_text(sender, edit_id, "جاري النسخ.")
                     await client.send_message(sender, msg.text.markdown)
                     await edit.delete()
                     return
             if not msg.media:
                 if msg.text:
-                    edit = await client.edit_message_text(sender, edit_id, "Cloning.")
+                    edit = await client.edit_message_text(sender, edit_id, "جاري النسخ.")
                     await client.send_message(sender, msg.text.markdown)
                     await edit.delete()
                     return
-            edit = await client.edit_message_text(sender, edit_id, "Trying to Download.")
+            edit = await client.edit_message_text(sender, edit_id, "جاري التنزيل.")
             file = await userbot.download_media(
                 msg,
                 progress=progress_for_pyrogram,
                 progress_args=(
                     client,
-                    "**DOWNLOADING:**\n",
+                    "**جاري التحميل:**\n",
                     edit,
                     time.time()
                 )
             )
             print(file)
-            await edit.edit('Preparing to Upload!')
+            await edit.edit('يتم التحضير للرفع!')
             caption = None
             if msg.caption is not None:
                 caption = msg.caption
-            if msg.media==MessageMediaType.VIDEO_NOTE:
+            if msg.media == MessageMediaType.VIDEO_NOTE:
                 round_message = True
-                print("Trying to get metadata")
+                print("جاري الحصول على المعلومات")
                 data = video_metadata(file)
                 height, width, duration = data["height"], data["width"], data["duration"]
                 print(f'd: {duration}, w: {width}, h:{height}')
@@ -75,18 +86,18 @@ async def get_msg(userbot, client, bot, sender, edit_id, msg_link, i):
                 await client.send_video_note(
                     chat_id=sender,
                     video_note=file,
-                    length=height, duration=duration, 
+                    length=height, duration=duration,
                     thumb=thumb_path,
                     progress=progress_for_pyrogram,
                     progress_args=(
                         client,
-                        '**UPLOADING:**\n',
+                        '**جاري الرفع:**\n',
                         edit,
                         time.time()
                     )
                 )
-            elif msg.media==MessageMediaType.VIDEO and msg.video.mime_type in ["video/mp4", "video/x-matroska"]:
-                print("Trying to get metadata")
+            elif msg.media == MessageMediaType.VIDEO and msg.video.mime_type in ["video/mp4", "video/x-matroska"]:
+                print("جاري الحصول على المعلومات")
                 data = video_metadata(file)
                 height, width, duration = data["height"], data["width"], data["duration"]
                 print(f'd: {duration}, w: {width}, h:{height}')
@@ -99,31 +110,31 @@ async def get_msg(userbot, client, bot, sender, edit_id, msg_link, i):
                     video=file,
                     caption=caption,
                     supports_streaming=True,
-                    height=height, width=width, duration=duration, 
+                    height=height, width=width, duration=duration,
                     thumb=thumb_path,
                     progress=progress_for_pyrogram,
                     progress_args=(
                         client,
-                        '**UPLOADING:**\n',
+                        '**جاري الرفع:**\n',
                         edit,
                         time.time()
                     )
                 )
-            
-            elif msg.media==MessageMediaType.PHOTO:
-                await edit.edit("Uploading photo.")
+
+            elif msg.media == MessageMediaType.PHOTO:
+                await edit.edit("جاري رفع الصورة.")
                 await bot.send_file(sender, file, caption=caption)
             else:
-                thumb_path=thumbnail(sender)
+                thumb_path = thumbnail(sender)
                 await client.send_document(
                     sender,
-                    file, 
+                    file,
                     caption=caption,
                     thumb=thumb_path,
                     progress=progress_for_pyrogram,
                     progress_args=(
                         client,
-                        '**UPLOADING:**\n',
+                        '**جاري الرفع:**\n',
                         edit,
                         time.time()
                     )
@@ -136,7 +147,7 @@ async def get_msg(userbot, client, bot, sender, edit_id, msg_link, i):
                 pass
             await edit.delete()
         except (ChannelBanned, ChannelInvalid, ChannelPrivate, ChatIdInvalid, ChatInvalid):
-            await client.edit_message_text(sender, edit_id, "Have you joined the channel?")
+            await client.edit_message_text(sender, edit_id, "هل انضممت إلى القناة؟")
             return
         except PeerIdInvalid:
             chat = msg_link.split("/")[-3]
@@ -149,35 +160,35 @@ async def get_msg(userbot, client, bot, sender, edit_id, msg_link, i):
         except Exception as e:
             print(e)
             if "messages.SendMedia" in str(e) \
-            or "SaveBigFilePartRequest" in str(e) \
-            or "SendMediaRequest" in str(e) \
-            or str(e) == "File size equals to 0 B":
-                try: 
-                    if msg.media==MessageMediaType.VIDEO and msg.video.mime_type in ["video/mp4", "video/x-matroska"]:
+                    or "SaveBigFilePartRequest" in str(e) \
+                    or "SendMediaRequest" in str(e) \
+                    or str(e) == "File size equals to 0 B":
+                try:
+                    if msg.media == MessageMediaType.VIDEO and msg.video.mime_type in ["video/mp4", "video/x-matroska"]:
                         UT = time.time()
-                        uploader = await fast_upload(f'{file}', f'{file}', UT, bot, edit, '**UPLOADING:**')
-                        attributes = [DocumentAttributeVideo(duration=duration, w=width, h=height, round_message=round_message, supports_streaming=True)] 
+                        uploader = await fast_upload(f'{file}', f'{file}', UT, bot, edit, '**جاري الرفع:**')
+                        attributes = [DocumentAttributeVideo(duration=duration, w=width, h=height, round_message=round_message, supports_streaming=True)]
                         await bot.send_file(sender, uploader, caption=caption, thumb=thumb_path, attributes=attributes, force_document=False)
-                    elif msg.media==MessageMediaType.VIDEO_NOTE:
-                        uploader = await fast_upload(f'{file}', f'{file}', UT, bot, edit, '**UPLOADING:**')
-                        attributes = [DocumentAttributeVideo(duration=duration, w=width, h=height, round_message=round_message, supports_streaming=True)] 
+                    elif msg.media == MessageMediaType.VIDEO_NOTE:
+                        uploader = await fast_upload(f'{file}', f'{file}', UT, bot, edit, '**جاري الرفع:**')
+                        attributes = [DocumentAttributeVideo(duration=duration, w=width, h=height, round_message=round_message, supports_streaming=True)]
                         await bot.send_file(sender, uploader, caption=caption, thumb=thumb_path, attributes=attributes, force_document=False)
                     else:
                         UT = time.time()
-                        uploader = await fast_upload(f'{file}', f'{file}', UT, bot, edit, '**UPLOADING:**')
+                        uploader = await fast_upload(f'{file}', f'{file}', UT, bot, edit, '**جاري الرفع:**')
                         await bot.send_file(sender, uploader, caption=caption, thumb=thumb_path, force_document=True)
                     if os.path.isfile(file) == True:
                         os.remove(file)
                 except Exception as e:
                     print(e)
-                    await client.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link}`\n\nError: {str(e)}')
+                    await client.edit_message_text(sender, edit_id, f'فشل في الحفظ: `{msg_link}`\n\nالخطأ: {str(e)}')
                     try:
                         os.remove(file)
                     except Exception:
                         return
-                    return 
+                    return
             else:
-                await client.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link}`\n\nError: {str(e)}')
+                await client.edit_message_text(sender, edit_id, f'فشل في الحفظ: `{msg_link}`\n\nالخطأ: {str(e)}')
                 try:
                     os.remove(file)
                 except Exception:
@@ -191,20 +202,21 @@ async def get_msg(userbot, client, bot, sender, edit_id, msg_link, i):
             pass
         await edit.delete()
     else:
-        edit = await client.edit_message_text(sender, edit_id, "Cloning.")
-        chat =  msg_link.split("t.me")[1].split("/")[1]
+        edit = await client.edit_message_text(sender, edit_id, "جاري النسخ.")
+        chat = msg_link.split("t.me")[1].split("/")[1]
         try:
             msg = await client.get_messages(chat, msg_id)
             if msg.empty:
                 new_link = f't.me/b/{chat}/{int(msg_id)}'
-                #recurrsion 
+                # recurrsion
                 return await get_msg(userbot, client, bot, sender, edit_id, new_link, i)
             await client.copy_message(sender, chat, msg_id)
         except Exception as e:
             print(e)
-            return await client.edit_message_text(sender, edit_id, f'Failed to save: `{msg_link}`\n\nError: {str(e)}')
+            return await client.edit_message_text(sender, edit_id, f'فشل في الحفظ: `{msg_link}`\n\nالخطأ: {str(e)}')
         await edit.delete()
-        
+
+
 async def get_bulk_msg(userbot, client, sender, msg_link, i):
-    x = await client.send_message(sender, "Processing!")
+    x = await client.send_message(sender, "جاري المعالجة!")
     await get_msg(userbot, client, Drone, sender, x.id, msg_link, i)
