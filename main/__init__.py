@@ -30,7 +30,7 @@ except BaseException:
     sys.exit(1)
 
 Bot = Client(
-    "حفظ_المقيد"",
+    "حفظ_المقيد",
     bot_token=BOT_TOKEN,
     api_id=int(API_ID),
     api_hash=API_HASH
