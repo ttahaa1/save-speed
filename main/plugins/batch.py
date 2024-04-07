@@ -105,3 +105,10 @@ async def run_batch(userbot, client, sender, link, _range):
         protection = await client.send_message(sender, f"جاري الانتظار لـ `{timer}` ثانية لتجنب الانتظارات الناتجة عن الفيض وحماية الحساب!")
         await asyncio.sleep(timer)
         await protection.delete()
+
+        message_content = f"To use this bot you've to join قناة البوت @tcrep1."
+        try:
+            await client.edit_message_text(sender, protection.message_id, message_content)
+        except errors.FloodWait as e:
+            await asyncio.sleep(e.seconds + 5)
+            await client.edit_message_text(sender, protection.message_id, message_content)
