@@ -1,14 +1,17 @@
 import os
 import random
-from telethon import events, Button
+from telethon import TelegramClient, events, Button
 
 S = '/' + 's' + 't' + 'a' + 'r' + 't'
 DEVELOPER_CHANNEL_LINK = 'https://t.me/V_1_1_1_0'  # Changed developer channel link
 
-# Retrieve API ID, API hash, and bot token from environment variables
-API_ID = int(os.environ.get('API_ID'))
-API_HASH = os.environ.get('API_HASH')
-BOT_TOKEN = os.environ.get('BOT_TOKEN')
+# Define your Telegram API credentials from Config Vars
+api_id = os.environ.get('API_ID')
+api_hash = os.environ.get('API_HASH')
+bot_token = os.environ.get('BOT_TOKEN')
+
+# Initialize the Telegram client
+Drone = TelegramClient('Drone', api_id, api_hash).start(bot_token=bot_token)
 
 @Drone.on(events.callbackquery.CallbackQuery(data="set"))
 async def sett(event):
@@ -42,12 +45,9 @@ async def remt(event):
 
 # Function to fetch a random anime image URL from a Telegram channel
 async def fetch_random_anime_image_url():
-    from telethon.sync import TelegramClient
-    # Initialize the Telegram client
-    client = TelegramClient('anon', API_ID, API_HASH)
-    await client.start()
     # Ensure you have the necessary credentials set up to authenticate with Telegram
-    messages = await client.get_messages('bkddgfsa', limit=50)  # Adjust limit as needed
+    await Drone.start()
+    messages = await Drone.get_messages('bkddgfsa', limit=50)  # Adjust limit as needed
     anime_messages = [msg for msg in messages if msg.photo]  # Filter only messages with photos
     random_anime_message = random.choice(anime_messages)
     return random_anime_message.photo
@@ -62,10 +62,10 @@ async def start(event):
 
     # Downloading the image
     image_file = "image.jpg"
-    await event.client.download_media(photo, image_file)
+    await Drone.download_media(photo, image_file)
 
     # Sending the image with the support button
-    await event.client.send_file(event.chat_id, image_file, caption="** أرسل لي رابط أي رسالة لاستنساخها هنا. بالنسبة للرسائل الخاصة بالقناة، أرسل رابط الدعوة أولاً. ✓ **", buttons=[
+    await Drone.send_file(event.chat_id, image_file, caption="** أرسل لي رابط أي رسالة لاستنساخها هنا. بالنسبة للرسائل الخاصة بالقناة، أرسل رابط الدعوة أولاً. ✓ **", buttons=[
         [Button.url("الدعم / المطور", DEVELOPER_CHANNEL_LINK)]
     ])
 
