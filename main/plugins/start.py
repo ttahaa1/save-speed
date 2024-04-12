@@ -1,10 +1,13 @@
-import requests
+import os
 import random
-from telethon import events, Button
-from telethon.tl.functions.messages import GetHistoryRequest
+from telethon import TelegramClient, events, Button
 
-# Replace 'bot' with your actual bot instance
-bot = 'BOT_TOKEN'
+# Initialize the bot using the environment variable
+api_id = os.environ.get('API_ID')
+api_hash = os.environ.get('API_HASH')
+session_name = os.environ.get('SESSION')
+
+bot = TelegramClient(session_name, api_id, api_hash)
 
 S = '/' + 's' + 't' + 'a' + 'r' + 't'
 DEVELOPER_CHANNEL_LINK = 'https://t.me/l_s_I_I'
@@ -53,3 +56,7 @@ async def start(event):
 async def stop_process(event):
     # قم بإيقاف أي عمليات تقوم بها الآن
     await event.reply("تم إيقاف العملية. ✓")
+
+# Start the bot
+bot.start()
+bot.run_until_disconnected()
