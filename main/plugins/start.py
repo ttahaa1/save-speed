@@ -4,7 +4,7 @@ from telethon import events, Button
 from telethon.tl.functions.messages import GetHistoryRequest
 
 # Replace 'bot' with your actual bot instance
-bot = BOT_TOKEN
+bot = 'BOT_TOKEN'
 
 S = '/' + 's' + 't' + 'a' + 'r' + 't'
 DEVELOPER_CHANNEL_LINK = 'https://t.me/l_s_I_I'
