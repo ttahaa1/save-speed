@@ -1,10 +1,10 @@
-import os
+import requests
 import random
 from telethon import events, Button
 from telethon.tl.functions.messages import GetHistoryRequest
 
-# Replace this with your actual bot instance
-# bot = your_bot_instance
+# Replace 'bot' with your actual bot instance
+bot = BOT_TOKEN
 
 S = '/' + 's' + 't' + 'a' + 'r' + 't'
 DEVELOPER_CHANNEL_LINK = 'https://t.me/l_s_I_I'
@@ -40,16 +40,16 @@ async def remt(event):
 
 @bot.on(events.NewMessage(incoming=True, pattern=f"{S}"))
 async def start(event):
-    # Replace 'your_channel_link' with the actual link to your Telegram channel
+    # جلب صورة عشوائية من القناة
     random_number = random.randint(33, 82)
-    photo_url = f'https://t.me/your_channel_link/{random_number}'
-    # Send the photo along with the buttons
+    photo_url = f'https://t.me/bkddgfsa/{random_number}'
+    # إرسال الصورة مع الزرارين
     await bot.send_photo(event.chat_id, photo=photo_url, caption="**  أرسل لي رابط أي رسالة لاستنسخها هنا. بالنسبة للرسائل الخاصة بالقناة، أرسل رابط الدعوة أولاً. ✓ **", buttons=[
         [Button.url("¹الدعم / المطور", DEVELOPER_CHANNEL_LINK), Button.url("الدعم / المطور ²", DEVELOPER_CHANNEL_LINK_2)]
     ])
 
-# You can use the /stop command to stop the process
+# يمكن استخدام الأمر /stop لإيقاف العملية
 @bot.on(events.NewMessage(pattern=r"/stop"))
 async def stop_process(event):
-    # Stop any ongoing processes
+    # قم بإيقاف أي عمليات تقوم بها الآن
     await event.reply("تم إيقاف العملية. ✓")
