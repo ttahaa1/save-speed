@@ -3,7 +3,8 @@ from telethon import events, Button
 from .. import bot as Drone
 
 S = '/' + 's' + 't' + 'a' + 'r' + 't'
-DEVELOPER_CHANNEL_LINK = 'https://t.me/l_s_I_I'
+DEVELOPER_CHANNEL_LINK1 = 'https://t.me/l_s_I_I'
+DEVELOPER_CHANNEL_LINK2 = 'https://t.me/V_1_1_1_0'
 
 @Drone.on(events.callbackquery.CallbackQuery(data="set"))
 async def sett(event):
@@ -49,7 +50,7 @@ async def start(event):
         return
 
     # إرسال الصورة مع الزرار الشفاف
-    await event.client.send_file(event.chat_id, image_file, caption="**  أرسل لي رابط أي رسالة لاستنساخها هنا. بالنسبة للرسائل الخاصة بالقناة، أرسل رابط الدعوة أولاً. ✓ **", buttons=[Button.url("الدعم / المطور", DEVELOPER_CHANNEL_LINK)])
+    await event.client.send_file(event.chat_id, image_file, caption="  أرسل لي رابط أي رسالة لاستنساخها هنا. بالنسبة للرسائل الخاصة بالقناة، أرسل رابط الدعوة أولاً. ✓ ", buttons=[Button.url("الدعم / المطور", DEVELOPER_CHANNEL_LINK)]), buttons=[Button.url(" 2 الدعم / المطور", DEVELOPER_CHANNEL_LINK2)])
 
 # يمكن استخدام الأمر /stop لإيقاف العملية
 @Drone.on(events.NewMessage(pattern=r"/stop"))
