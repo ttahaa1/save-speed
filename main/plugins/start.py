@@ -47,7 +47,7 @@ async def remt(event):
     except Exception:
         await event.edit("**لم يتم العثور على أي صورة مصغرة.**")
 
-@tcrep1.on(events.NewMessage(incoming=True, pattern=f"{S}"))
+@tcrep1.on(events.NewMessage(pattern=r"/start"))
 async def start(event):
     image_url = random.choice(image_urls)
     image_file = "image.jpg"
@@ -59,14 +59,10 @@ async def start(event):
         await event.reply("**حدث خطأ أثناء تنزيل الصورة.**")
         return
 
-    await event.client.send_file(event.chat_id, image_file, caption="**أرسل لي رابط أي رسالة لاستنسخها هنا. بالنسبة للرسائل الخاصة بالقناة، أرسل رابط الدعوة أولاً.**", buttons=[
-        [Button.url("إضافة صورة مصغرة 📷", "tg://msg_button?url=reply_to_message&text=add")],
-        [Button.url("حذف الصورة المصغرة ❌", "tg://msg_button?url=reply_to_message&text=remove")],
+    await event.reply("**أرسل لي رابط أي رسالة لاستنسخها هنا. بالنسبة للرسائل الخاصة بالقناة، أرسل رابط الدعوة أولاً.**", buttons=[
+        [Button.url("إضافة صورة مصغرة 📷", "tg://msg_button?url=reply_to_message&text=set")],
+        [Button.url("حذف الصورة المصغرة ❌", "tg://msg_button?url=reply_to_message&text=rem")],
         [Button.url("الدعم / المطور ²🎋", DEVELOPER_CHANNEL_LINK_1),
          Button.url("الدعم / المطور ¹🌿", DEVELOPER_CHANNEL_LINK_2)],
         [Button.url("قناة البوت", BOT_CHANNEL_LINK)]
     ])
-
-@tcrep1.on(events.NewMessage(pattern=r"/stop"))
-async def stop_process(event):
-    await event.reply("**تم إيقاف العملية.**")
