@@ -1,6 +1,6 @@
 import time, os
 
-from .. import bot as Drone
+from .. import bot as tcrep1
 from .. import userbot, Bot
 from .. import FORCESUB as fs
 from main.plugins.pyroplug import get_msg
@@ -11,11 +11,11 @@ from pyrogram.errors import FloodWait
 
 from ethon.telefunc import force_sub
 
-ft = f"يجب عليك الانضمام إلى @{fs} لاستخدام هذا البوت."
+ft = f"**✨ يجب عليك الانضمام إلى @{fs} لاستخدام هذا البوت. ✨**"
 
-message = "أرسل لي رابط الرسالة التي تريد بدء الحفظ منها كرد على هذه الرسالة."
+message = "**📩 أرسل لي رابط الرسالة التي تريد بدء الحفظ منها كرد على هذه الرسالة. 📩**"
 
-@Drone.on(events.NewMessage(incoming=True, func=lambda e: e.is_private))
+@tcrep1.on(events.NewMessage(incoming=True, func=lambda e: e.is_private))
 async def clone(event):
     if event.is_reply:
         reply = await event.get_reply_message()
@@ -31,16 +31,16 @@ async def clone(event):
     if s == True:
         await event.reply(r)
         return
-    edit = await event.reply("جاري المعالجة!")
+    edit = await event.reply("**🔄 جاري المعالجة! 🔄**")
     try:
         if 't.me/+' in link:
             q = await join(userbot, link)
             await edit.edit(q)
             return
         if 't.me/' in link:
-            await get_msg(userbot, Bot, Drone, event.sender_id, edit.id, link, 0)
+            await get_msg(userbot, Bot, tcrep1, event.sender_id, edit.id, link, 0)
     except FloodWait as fw:
-        return await Drone.send_message(event.sender_id, f"حاول مرة أخرى بعد {fw.x} ثانية بسبب انتظار التحكم في الفيض من تليجرام.")
+        return await tcrep1.send_message(event.sender_id, f"**⏳ حاول مرة أخرى بعد {fw.x} ثانية بسبب انتظار التحكم في الفيض من تليجرام. ⏳**")
     except Exception as e:
         print(e)
-        await Drone.send_message(event.sender_id, f"حدث خطأ أثناء عملية الاستنساخ من `{link}`\n\n**الخطأ:** {str(e)}")
+        await tcrep1.send_message(event.sender_id, f"**❌ حدث خطأ أثناء عملية الاستنساخ من `{link}`\n\nالخطأ:** {str(e)} ❌**")
