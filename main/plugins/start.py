@@ -1,6 +1,6 @@
 import requests
 import random
-from telethon import events
+from telethon import events, Button
 from .. import bot as tcrep1
 
 S = '/' + 's' + 't' + 'a' + 'r' + 't'
@@ -21,9 +21,7 @@ image_urls = [
 async def start(event):
     image_url = random.choice(image_urls)
     image_file = "image.jpg"
-    
     response = requests.get(image_url)
-    
     if response.status_code == 200:
         with open(image_file, 'wb') as f:
             f.write(response.content)
@@ -31,20 +29,11 @@ async def start(event):
         await event.reply("**حدث خطأ أثناء تنزيل الصورة.**")
         return
 
-    caption_text = (
-        "**أرسل لي رابط أي رسالة لاستنسخها هنا. "
-        "بالنسبة للرسائل الخاصة بالقناة، أرسل رابط الدعوة أولاً.**"
-    )
-    
-    buttons = [
-        [
-            Button.url("الدعم / المطور ²🎋", DEVELOPER_CHANNEL_LINK_1),
-            Button.url("الدعم / المطور ¹🌿", DEVELOPER_CHANNEL_LINK_2)
-        ],
+    await event.client.send_file(event.chat_id, image_file, caption="**أرسل لي رابط أي رسالة لاستنسخها هنا. بالنسبة للرسائل الخاصة بالقناة، أرسل رابط الدعوة أولاً.**", buttons=[
+        [Button.url("الدعم / المطور ²🎋", DEVELOPER_CHANNEL_LINK_1),
+         Button.url("الدعم / المطور ¹🌿", DEVELOPER_CHANNEL_LINK_2)],
         [Button.url("قناة البوت", BOT_CHANNEL_LINK)]
-    ]
-
-    await event.client.send_file(event.chat_id, image_file, caption=caption_text, buttons=buttons)
+    ])
 
 @tcrep1.on(events.NewMessage(pattern=r"/stop"))
 async def stop_process(event):
