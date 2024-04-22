@@ -24,28 +24,28 @@ async def sett(event):
     msg = await button.get_reply_message()
     await event.delete()
     async with tcrep1.conversation(event.chat_id) as conv:
-        xx = await conv.send_message("** أرسـل لـي صـورة لـتـكـون الـصـورة المـصـغـرة. **")
+        xx = await conv.send_message("**أرسل لي صورة لتكون الصورة المصغرة.**")
         x = await conv.get_reply()
         if not x.media:
-            xx.edit("** لـم يـتـم الـعـثـور عـلى وسـائـط. **")
+            xx.edit("**لم يتم العثور على وسائط.**")
             return
         mime = x.file.mime_type
         if not ('png' in mime or 'jpg' in mime or 'jpeg' in mime):
-            await xx.edit("** لـم يـتـم الـعـثـور عـلى صـورة. **")
+            await xx.edit("**لم يتم العثور على صورة.**")
             return
         await xx.delete()
-        t = await event.client.send_message(event.chat_id, '** جـارٍ المـحـاولـة... **')
+        t = await event.client.send_message(event.chat_id, '**جارٍ المحاولة...**')
         media_url = await x.download_media()
-        await t.edit("** تـم حـفـظ الـصـورة مـؤقـتًا! **")
+        await t.edit("**تم حفظ الصورة مؤقتًا!**")
 
 @tcrep1.on(events.callbackquery.CallbackQuery(data="rem"))
 async def remt(event):
-    await event.edit('** جـارٍ المـحـاولـة... **')
+    await event.edit('**جارٍ المحاولة...**')
     try:
         os.remove(f'{event.sender_id}.jpg')
-        await event.edit('** تـم الـحـذف! **')
+        await event.edit('**تم الحذف!**')
     except Exception:
-        await event.edit("** لـم يـتـم الـعـثـور عـلى أي صـورة مـصـغـرة. **")
+        await event.edit("**لم يتم العثور على أي صورة مصغرة.**")
 
 @tcrep1.on(events.NewMessage(incoming=True, pattern=f"{S}"))
 async def start(event):
@@ -56,17 +56,17 @@ async def start(event):
         with open(image_file, 'wb') as f:
             f.write(response.content)
     else:
-        await event.reply("** حـدث خـطأ أثـناء تـنزيل الـصـورة. **")
+        await event.reply("**حدث خطأ أثناء تنزيل الصورة.**")
         return
 
-    await event.client.send_file(event.chat_id, image_file, caption="** أرسـل لـي رابـط أي رسـالة لـاستنسخها هـنـا. بالـنـسـبـة للـرسـائل الـخـاصـة بالـقـنـاة، أرسـل رابـط الـدعـوة أولـاً. **", buttons=[
-        [Button.url("** إضافة صورة مصغرة 📷 **", "tg://msg_button?url=reply_to_message&text=add")],
-        [Button.url("** حذف الصورة المصغرة ❌ **", "tg://msg_button?url=reply_to_message&text=remove")],
-        [Button.url("** الـدعـم / المـطـور ¹🎋 **", DEVELOPER_CHANNEL_LINK_1),
-         Button.url("** الـدعـم / المـطـور ²🌿 **", DEVELOPER_CHANNEL_LINK_2)],
-        [Button.url("** قـنـاة الـبـوت **", BOT_CHANNEL_LINK)]
+    await event.client.send_file(event.chat_id, image_file, caption="**أرسل لي رابط أي رسالة لاستنسخها هنا. بالنسبة للرسائل الخاصة بالقناة، أرسل رابط الدعوة أولاً.**", buttons=[
+        [Button.url("إضافة صورة مصغرة 📷", "tg://msg_button?url=reply_to_message&text=add")],
+        [Button.url("حذف الصورة المصغرة ❌", "tg://msg_button?url=reply_to_message&text=remove")],
+        [Button.url("الدعم / المطور ²🎋", DEVELOPER_CHANNEL_LINK_1),
+         Button.url("الدعم / المطور ¹🌿", DEVELOPER_CHANNEL_LINK_2)],
+        [Button.url("قناة البوت", BOT_CHANNEL_LINK)]
     ])
 
 @tcrep1.on(events.NewMessage(pattern=r"/stop"))
 async def stop_process(event):
-    await event.reply("** تـم إيـقـاف الـعـمـلـيـة. **")
+    await event.reply("**تم إيقاف العملية.**")
