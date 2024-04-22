@@ -39,7 +39,7 @@ async def progress_for_pyrogram(
             ''.join([UN_FINISHED_PROGRESS_STR for i in range(10 - math.floor(percentage / 10))]),
             round(percentage, 2))
 
-        tmp = progress + "تنزيل: {0} من {1}\n\nالسرعة: {2}/ثانية\n\nالوقت المتوقع للانتهاء: {3}\n".format(
+        tmp = progress + "**تنـزيل:** {0} من {1}\n\n**السـرعـة:** {2}/ثانية\n\n**الوقـت المتـوقـع للانـتهـاء:** {3}\n".format(
             humanbytes(current),
             humanbytes(total),
             humanbytes(speed),
@@ -48,14 +48,14 @@ async def progress_for_pyrogram(
         try:
             if not message.photo:
                 await message.edit_text(
-                    text="{}\n {}".format(
+                    text="**{}**\n {}".format(
                         ud_type,
                         tmp
                     )
                 )
             else:
                 await message.edit_caption(
-                    caption="{}\n {}".format(
+                    caption="**{}**\n {}".format(
                         ud_type,
                         tmp
                     )
@@ -81,8 +81,8 @@ def TimeFormatter(milliseconds: int) -> str:
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
-    tmp = ((str(days) + "يوم, ") if days else "") + \
-        ((str(hours) + "ساعة, ") if hours else "") + \
-        ((str(minutes) + "دقيقة, ") if minutes else "") + \
-        ((str(seconds) + "ثانية, ") if seconds else "")
+    tmp = ((str(days) + "يـوم, ") if days else "") + \
+        ((str(hours) + "سـاعـة, ") if hours else "") + \
+        ((str(minutes) + "دقيقـة, ") if minutes else "") + \
+        ((str(seconds) + "ثـانـية, ") if seconds else "")
     return tmp[:-2]
