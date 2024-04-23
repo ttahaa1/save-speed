@@ -2,7 +2,7 @@ import time, os
 
 from .. import bot as Drone
 from .. import userbot, Bot
-from .. import FORCESUB as fs
+from .. import FORCESUB as اشتراك_قسري
 from main.plugins.pyroplug import get_msg
 from main.plugins.helpers import get_link, join
 
@@ -11,15 +11,15 @@ from pyrogram.errors import FloodWait
 
 from ethon.telefunc import force_sub
 
-ft = f"**✨ يجب عليك الانضمام إلى @{fs} لاستخدام هذا البوت. ✨**"
+اشتراك_قسري_رسالة = f"**✨ يجب عليك الانضمام إلى @{اشتراك_قسري} لاستخدام هذا البوت. ✨**"
 
-message = "**📩 أرسل لي رابط الرسالة التي تريد بدء الحفظ منها كرد على هذه الرسالة. 📩**"
+رسالة_بداية = "**📩 أرسل لي رابط الرسالة التي تريد بدء الحفظ منها كرد على هذه الرسالة. 📩**"
 
 @Drone.on(events.NewMessage(incoming=True, func=lambda e: e.is_private))
 async def clone(event):
     if event.is_reply:
         reply = await event.get_reply_message()
-        if reply.text == message:
+        if reply.text == رسالة_بداية:
             return
     try:
         link = get_link(event.text)
@@ -27,7 +27,7 @@ async def clone(event):
             return
     except TypeError:
         return
-    s, r = await force_sub(event.client, fs, event.sender_id, fs)
+    s, r = await force_sub(event.client, اشتراك_قسري, event.sender_id, اشتراك_قسري)
     if s == True:
         await event.reply(r)
         return
@@ -43,4 +43,4 @@ async def clone(event):
         return await event.reply(f"**⏳ حاول مرة أخرى بعد {fw.x} ثانية بسبب انتظار التحكم في الفيض من تليجرام. ⏳**")
     except Exception as e:
         print(e)
-        await event.reply(f"**❌ حدث خطأ أثناء عملية الاستنساخ من `{link}`\n\nالخطأ:** {str(e)} ❌**")
+        await event.reply(f"**❌ حدث خطأ أثناء عملية الاستنسخ من `{link}`\n\nالخطأ:** {str(e)} ❌**")
