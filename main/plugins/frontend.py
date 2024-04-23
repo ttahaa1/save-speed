@@ -40,7 +40,7 @@ async def clone(event):
         if 't.me/' in link:
             await get_msg(userbot, Bot, Drone, event.sender_id, edit.id, link, 0)
     except FloodWait as fw:
-        return await tcrep1.send_message(event.sender_id, f"**⏳ حاول مرة أخرى بعد {fw.x} ثانية بسبب انتظار التحكم في الفيض من تليجرام. ⏳**")
+        return await event.reply(f"**⏳ حاول مرة أخرى بعد {fw.x} ثانية بسبب انتظار التحكم في الفيض من تليجرام. ⏳**")
     except Exception as e:
         print(e)
-        await tcrep1.send_message(event.sender_id, f"**❌ حدث خطأ أثناء عملية الاستنساخ من `{link}`\n\nالخطأ:** {str(e)} ❌**")
+        await event.reply(f"**❌ حدث خطأ أثناء عملية الاستنساخ من `{link}`\n\nالخطأ:** {str(e)} ❌**")
