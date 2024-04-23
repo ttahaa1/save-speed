@@ -2,7 +2,7 @@ import time, os
 
 from .. import bot as Drone
 from .. import userbot, Bot
-from .. import FORCESUB as fs
+from .. import FORCESUB as ft
 from main.plugins.pyroplug import get_msg
 from main.plugins.helpers import get_link, join
 
@@ -11,7 +11,7 @@ from pyrogram.errors import FloodWait
 
 from ethon.telefunc import force_sub
 
-fs = f"**✨ يجب عليك الانضمام إلى @{fs} لاستخدام هذا البوت. ✨**"
+ft = f"**✨ يجب عليك الانضمام إلى @{fs} لاستخدام هذا البوت. ✨**"
 
 message = "**📩 أرسل لي رابط الرسالة التي تريد بدء الحفظ منها كرد على هذه الرسالة. 📩**"
 
