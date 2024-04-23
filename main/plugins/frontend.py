@@ -1,6 +1,6 @@
 import time, os
 
-from .. import bot as tcrep1
+from .. import bot as Drone
 from .. import userbot, Bot
 from .. import FORCESUB as fs
 from main.plugins.pyroplug import get_msg
@@ -15,7 +15,7 @@ ft = f"**✨ يجب عليك الانضمام إلى @{fs} لاستخدام هذ
 
 message = "**📩 أرسل لي رابط الرسالة التي تريد بدء الحفظ منها كرد على هذه الرسالة. 📩**"
 
-@tcrep1.on(events.NewMessage(incoming=True, func=lambda e: e.is_private))
+@Drone.on(events.NewMessage(incoming=True, func=lambda e: e.is_private))
 async def clone(event):
     if event.is_reply:
         reply = await event.get_reply_message()
@@ -38,7 +38,7 @@ async def clone(event):
             await edit.edit(q)
             return
         if 't.me/' in link:
-            await get_msg(userbot, Bot, tcrep1, event.sender_id, edit.id, link, 0)
+            await get_msg(userbot, Bot, Drone, event.sender_id, edit.id, link, 0)
     except FloodWait as fw:
         return await tcrep1.send_message(event.sender_id, f"**⏳ حاول مرة أخرى بعد {fw.x} ثانية بسبب انتظار التحكم في الفيض من تليجرام. ⏳**")
     except Exception as e:

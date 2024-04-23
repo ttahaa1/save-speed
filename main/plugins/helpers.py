@@ -29,7 +29,7 @@ def get_link(string):
     try:
         link = [x[0] for x in url][0]
         if link:
-            return "**🔗 الرابط المحدد:** " + link
+            return link
         else:
             return False
     except Exception:
@@ -39,7 +39,7 @@ def get_link(string):
 
 def hhmmss(seconds):
     x = time.strftime('%H:%M:%S',time.gmtime(seconds))
-    return "**⏱️ الزمن المحدد:** " + x
+    return x
 
 async def screenshot(video, duration, sender):
     if os.path.exists(f'{sender}.jpg'):
@@ -65,6 +65,6 @@ async def screenshot(video, duration, sender):
     x = stderr.decode().strip()
     y = stdout.decode().strip()
     if os.path.isfile(out):
-        return "**📸 لقطة الشاشة:** " + out
+        return out
     else:
-        return None
+        None

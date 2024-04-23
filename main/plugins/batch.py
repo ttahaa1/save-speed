@@ -2,8 +2,8 @@ import time
 import os
 import asyncio
 
-from .. import bot as tcrep1
-from .. import userbot, Bot, AUTH
+from .. import bot as Drone
+from .. import userbot, Bot, AUTHAlso
 from .. import FORCESUB as fs
 from main.plugins.pyroplug import get_bulk_msg
 from main.plugins.helpers import get_link, screenshot
@@ -21,14 +21,14 @@ ft = f"**✨ لإستخدام هذا البوت يجب الإنضمام إلى �
 
 batch = []
 
-@tcrep1.on(events.NewMessage(incoming=True, from_users=AUTH, pattern='/cancel'))
+@Drone.on(events.NewMessage(incoming=True, from_users=AUTH, pattern='/cancel'))
 async def cancel(event):
     if not event.sender_id in batch:
         return await event.reply("**❌ لا يوجد دفعة نشطة. ❌**")
     batch.clear()
     await event.reply("**✅ تم. ✅**")
 
-@tcrep1.on(events.NewMessage(incoming=True, from_users=AUTH, pattern='/batch'))
+@Drone.on(events.NewMessage(incoming=True, from_users=AUTH, pattern='/batch'))
 async def _batch(event):
     if not event.is_private:
         return
@@ -38,7 +38,7 @@ async def _batch(event):
         return       
     if event.sender_id in batch:
         return await event.reply("**❌ لقد بدأت بالفعل دفعة واحدة، انتظر حتى تكتمل يا مالك الغباء! ❌**")
-    async with tcrep1.conversation(event.chat_id) as conv: 
+    async with Drone.conversation(event.chat_id) as conv: 
         if s != True:
             await conv.send_message("**📩 أرسل لي رابط الرسالة التي تريد بدء الحفظ منها كرد على هذه الرسالة. 📩**", buttons=Button.force_reply())
             try:

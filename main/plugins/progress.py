@@ -48,14 +48,14 @@ async def progress_for_pyrogram(
         try:
             if not message.photo:
                 await message.edit_text(
-                    text="**{}**\n {}".format(
+                    text="{}\n {}".format(
                         ud_type,
                         tmp
                     )
                 )
             else:
                 await message.edit_caption(
-                    caption="**{}**\n {}".format(
+                    caption="{}\n {}".format(
                         ud_type,
                         tmp
                     )
@@ -81,8 +81,8 @@ def TimeFormatter(milliseconds: int) -> str:
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
-    tmp = ((str(days) + "يـوم, ") if days else "") + \
-        ((str(hours) + "سـاعـة, ") if hours else "") + \
-        ((str(minutes) + "دقيقـة, ") if minutes else "") + \
-        ((str(seconds) + "ثـانـية, ") if seconds else "")
+    tmp = ((str(days) + "يوم, ") if days else "") + \
+        ((str(hours) + "ساعة, ") if hours else "") + \
+        ((str(minutes) + "دقيقة, ") if minutes else "") + \
+        ((str(seconds) + "ثانية, ") if seconds else "")
     return tmp[:-2]

@@ -2,7 +2,7 @@ import asyncio
 import os
 import time
 
-from .. import bot as tcrep1
+from .. import bot as Drone
 from main.plugins.progress import progress_for_pyrogram
 from main.plugins.helpers import screenshot
 
@@ -29,7 +29,7 @@ def thumbnail(sender):
         return None
 
 
-async def get_msg(userbot, client, sender, edit_id, msg_link, i):
+async def get_msg(userbot, client, bot, sender, edit_id, msg_link, i):
     edit = ""
     chat = ""
     round_message = False
@@ -78,7 +78,7 @@ async def get_msg(userbot, client, sender, edit_id, msg_link, i):
                 print("**جـاري الـحـصـول عـلـى الـمـعـلـومـات**")
                 data = video_metadata(file)
                 height, width, duration = data["height"], data["width"], data["duration"]
-                print(f'**الـمـدة:** {duration}, **الـعـرض:** {width}, **الـطـول:** {height}')
+                print(f'd: {duration}, w: {width}, h:{height}')
                 try:
                     thumb_path = await screenshot(file, duration, sender)
                 except Exception:
@@ -100,7 +100,7 @@ async def get_msg(userbot, client, sender, edit_id, msg_link, i):
                 print("**جـاري الـحـصـول عـلـى الـمـعـلـومـات**")
                 data = video_metadata(file)
                 height, width, duration = data["height"], data["width"], data["duration"]
-                print(f'**الـمـدة:** {duration}, **الـعـرض:** {width}, **الـطـول:** {height}')
+                print(f'd: {duration}, w: {width}, h:{height}')
                 try:
                     thumb_path = await screenshot(file, duration, sender)
                 except Exception:
@@ -123,7 +123,7 @@ async def get_msg(userbot, client, sender, edit_id, msg_link, i):
 
             elif msg.media == MessageMediaType.PHOTO:
                 await edit.edit("**جـاري الـرفـع لـلـصـورة.**")
-                await tcrep1.send_file(sender, file, caption=caption)
+                await bot.send_file(sender, file, caption=caption)
             else:
                 thumb_path = thumbnail(sender)
                 await client.send_document(
@@ -156,7 +156,7 @@ async def get_msg(userbot, client, sender, edit_id, msg_link, i):
                 new_link = f"t.me/c/{chat}/{msg_id}"
             except:
                 new_link = f"t.me/b/{chat}/{msg_id}"
-            return await get_msg(userbot, client, sender, edit_id, new_link, i)
+            return await get_msg(userbot, client, bot, sender, edit_id, msg_link, i)
         except Exception as e:
             print(e)
             if "messages.SendMedia" in str(e) \
@@ -166,17 +166,17 @@ async def get_msg(userbot, client, sender, edit_id, msg_link, i):
                 try:
                     if msg.media == MessageMediaType.VIDEO and msg.video.mime_type in ["video/mp4", "video/x-matroska"]:
                         UT = time.time()
-                        uploader = await fast_upload(f'{file}', f'{file}', UT, tcrep1, edit, '**جـاري الـرفـع:**')
+                        uploader = await fast_upload(f'{file}', f'{file}', UT, bot, edit, '**جاري الرفع:**')
                         attributes = [DocumentAttributeVideo(duration=duration, w=width, h=height, round_message=round_message, supports_streaming=True)]
-                        await tcrep1.send_file(sender, uploader, caption=caption, thumb=thumb_path, attributes=attributes, force_document=False)
+                        await bot.send_file(sender, uploader, caption=caption, thumb=thumb_path, attributes=attributes, force_document=False)
                     elif msg.media == MessageMediaType.VIDEO_NOTE:
-                        uploader = await fast_upload(f'{file}', f'{file}', UT, tcrep1, edit, '**جـاري الـرفـع:**')
+                        uploader = await fast_upload(f'{file}', f'{file}', UT, bot, edit, '**جاري الرفع:**')
                         attributes = [DocumentAttributeVideo(duration=duration, w=width, h=height, round_message=round_message, supports_streaming=True)]
-                        await tcrep1.send_file(sender, uploader, caption=caption, thumb=thumb_path, attributes=attributes, force_document=False)
+                        await bot.send_file(sender, uploader, caption=caption, thumb=thumb_path, attributes=attributes, force_document=False)
                     else:
                         UT = time.time()
-                        uploader = await fast_upload(f'{file}', f'{file}', UT, tcrep1, edit, '**جـاري الـرفـع:**')
-                        await tcrep1.send_file(sender, uploader, caption=caption, thumb=thumb_path, force_document=True)
+                        uploader = await fast_upload(f'{file}', f'{file}', UT, bot, edit, '**جاري الرفع:**')
+                        await bot.send_file(sender, uploader, caption=caption, thumb=thumb_path, force_document=True)
                     if os.path.isfile(file) == True:
                         os.remove(file)
                 except Exception as e:
@@ -209,7 +209,7 @@ async def get_msg(userbot, client, sender, edit_id, msg_link, i):
             if msg.empty:
                 new_link = f't.me/b/{chat}/{int(msg_id)}'
                 # recurrsion
-                return await get_msg(userbot, client, sender, edit_id, new_link, i)
+                return await get_msg(userbot, client, bot, sender, edit_id, new_link, i)
             await client.copy_message(sender, chat, msg_id)
         except Exception as e:
             print(e)
@@ -219,4 +219,4 @@ async def get_msg(userbot, client, sender, edit_id, msg_link, i):
 
 async def get_bulk_msg(userbot, client, sender, msg_link, i):
     x = await client.send_message(sender, "**جـاري الـمـعـالـجـة!**")
-    await get_msg(userbot, client, sender, x.id, msg_link, i)
+    await get_msg(userbot, client, Drone, sender, x.id, msg_link, i)
