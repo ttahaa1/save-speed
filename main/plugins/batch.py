@@ -3,7 +3,7 @@ import os
 import asyncio
 
 from .. import bot as Drone
-from .. import userbot, Bot, AUTHAlso
+from .. import userbot, Bot, AUTH
 from .. import FORCESUB as fs
 from main.plugins.pyroplug import get_bulk_msg
 from main.plugins.helpers import get_link, screenshot
