@@ -5,9 +5,7 @@ from telethon import events, Button
 from .. import bot as Drone
 
 S = '/' + 's' + 't' + 'a' + 'r' + 't'
-DEVELOPER_CHANNEL_LINK_1 = 'https://t.me/l_s_I_I'
-DEVELOPER_CHANNEL_LINK_2 = 'https://t.me/V_1_1_1_0'
-BOT_CHANNEL_LINK = 'https://t.me/tcrep1'
+BOT_CHANNEL_LINK = 'https://t.me/S_D_C_D'
 
 image_urls = [
     "https://telegra.ph/file/e87601e9b2fffde7c577f.jpg",
@@ -63,8 +61,6 @@ async def start(event):
 
     # إرسال الصورة مع الزرار الشفاف
     await event.client.send_file(event.chat_id, image_file, caption="**أرسل لي رابط أي رسالة لاستنسخها هنا. بالنسبة للرسائل الخاصة بالقناة، أرسل رابط الدعوة أولاً.**", buttons=[
-        [Button.url("الدعم / المطور ²🎋", DEVELOPER_CHANNEL_LINK_1),
-         Button.url("الدعم / المطور ¹🌿", DEVELOPER_CHANNEL_LINK_2)],
         [Button.url("قناة البوت", BOT_CHANNEL_LINK)]
     ])
 
