@@ -1,4 +1,4 @@
-# Github.com/Vasusen-code
+#Github.com/Vasusen-code
 
 from pyrogram import Client
 
