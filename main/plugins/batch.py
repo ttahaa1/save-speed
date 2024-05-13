@@ -1,23 +1,5 @@
-import time
 import os
 import asyncio
-
-from .. import bot as Drone
-from .. import userbot, Bot, AUTH
-from .. import FORCESUB as fs
-from main.plugins.pyroplug import get_bulk_msg
-from main.plugins.helpers import get_link, screenshot
-
-from telethon import events, Button, errors
-from telethon.tl.types import DocumentAttributeVideo
-
-from pyrogram import Client 
-from pyrogram.errors import FloodWait
-
-from ethon.pyfunc import video_metadata
-from ethon.telefunc import force_sub
-
-ft = f"**✨ لإستخدام هذا البوت يجب الإنضمام إلى القناة @{fs}. ✨**"
 
 batch = []
 
@@ -28,49 +10,39 @@ async def cancel(event):
     batch.clear()
     await event.reply("**✅ تم. ✅**")
 
+async def save_file(client, sender, link, filename):
+    try:
+        if not os.path.exists("/app/downloads"):
+            os.makedirs("/app/downloads")
+        await client.download_media(link, f"/app/downloads/{filename}")
+    except Exception as e:
+        await client.send_message(sender, f"فـشـل فـي الـحـفـظ: {link}\nالـخـطـأ: {e}")
+
 @Drone.on(events.NewMessage(incoming=True, from_users=AUTH, pattern='/batch'))
 async def _batch(event):
     if not event.is_private:
         return
-    s, r = await force_sub(event.client, fs, event.sender_id, ft) 
-    if s == True:
-        await event.reply(r)
-        return       
     if event.sender_id in batch:
         return await event.reply("**❌ لقد بدأت بالفعل دفعة واحدة، انتظر حتى تكتمل يا مالك الغباء! ❌**")
     async with Drone.conversation(event.chat_id) as conv: 
-        if s != True:
-            await conv.send_message("**📩 أرسل لي رابط الرسالة التي تريد بدء الحفظ منها كرد على هذه الرسالة. 📩**", buttons=Button.force_reply())
-            try:
-                link = await conv.get_reply()
-                try:
-                    _link = get_link(link.text)
-                except Exception:
-                    await conv.send_message("**❌ لم يتم العثور على رابط. ❌**")
-                    return conv.cancel()
-            except Exception as e:
-                print(e)
-                await conv.send_message("**❌ لا يمكن الانتظار لمزيد من الوقت للرد! ❌**")
-                return conv.cancel()
-            await conv.send_message("**🔢 أرسل لي عدد الملفات/النطاق التي تريد حفظها من الرسالة المحددة كرد على هذه الرسالة. 🔢**", buttons=Button.force_reply())
-            try:
-                _range = await conv.get_reply()
-            except Exception as e:
-                print(e)
-                await conv.send_message("**❌ لا يمكن الانتظار لمزيد من الوقت للرد! ❌**")
-                return conv.cancel()
-            try:
-                value = int(_range.text)
-                if value > 100:
-                    await conv.send_message("**❌ يمكنك الحصول على ما يصل إلى 100 ملف في دفعة واحدة فقط. ❌**")
-                    return conv.cancel()
-            except ValueError:
-                await conv.send_message("**❌ يجب أن يكون النطاق عبارة عن عدد صحيح! ❌**")
-                return conv.cancel()
-            batch.append(event.sender_id)
-            await run_batch(userbot, Bot, event.sender_id, _link, value) 
-            conv.cancel()
-            batch.clear()
+        await conv.send_message("**📩 أرسل لي رابط الرسالة التي تريد بدء الحفظ منها كرد على هذه الرسالة. 📩**", buttons=Button.force_reply())
+        try:
+            link = await conv.get_reply()
+            link = link.text
+            if not link.startswith("http"):
+                link = f"https://{link}"
+        except Exception as e:
+            print(e)
+            await conv.send_message("**❌ لا يمكن الانتظار لمزيد من الوقت للرد! ❌**")
+            return conv.cancel()
+        try:
+            filename = link.split("/")[-1]
+            await save_file(client, event.sender_id, link, filename)
+        except Exception as e:
+            await conv.send_message(f"فـشـل فـي الـحـفـظ: {link}\nالـخـطـأ: {e}")
+            return conv.cancel()
+        await conv.send_message("**✅ تم بدء الحفظ. ✅**")
+        batch.append(event.sender_id)
 
 async def run_batch(userbot, client, sender, link, _range):
     for i in range(_range):
@@ -106,7 +78,7 @@ async def run_batch(userbot, client, sender, link, _range):
         await asyncio.sleep(timer)
         await protection.delete()
 
-        message_content = f"**🔥 لاستخدام هذا البوت يجب الإنضمام إلى القناة @{fs}. 🔥**"
+        message_content = "**🔥 تم استخدام البوت بنجاح! 🔥**"
         try:
             await client.edit_message_text(sender, protection.message_id, message_content)
         except errors.FloodWait as e:
