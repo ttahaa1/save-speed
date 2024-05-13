@@ -8,7 +8,7 @@ S = '/' + 's' + 't' + 'a' + 'r' + 't'
 BOT_CHANNEL_LINK = 'https://t.me/tcrep1'
 
 image_urls = [
-    "https://telegra.ph/file/beea93923bb8abd95bd8c.png"
+    "https://telegra.ph/file/e7ca0816f8f6733a08042.mp4"
 ]
 
 @Drone.on(events.callbackquery.CallbackQuery(data="set"))
