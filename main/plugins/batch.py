@@ -68,3 +68,19 @@ async def run_batch(userbot, client, sender, link, _range):
             break
         try:
             await get_bulk_msg(userbot, client, sender, link, i)
+        except FloodWait as fw:
+            if int(fw.x) > 299:
+                await client.send_message(sender, "**❌ إلغاء الدفعة لأن لديك انتظار للتحكم في الفيض أكثر من 5 دقائق. ❌**")
+                break
+            await asyncio.sleep(fw.x + 5)
+            await get_bulk_msg(userbot, client, sender, link, i)
+        protection = await client.send_message(sender, f"**⏳ جاري الانتظار لـ `{timer}` ثانية لتجنب الانتظارات الناتجة عن الفيض وحماية الحساب! ⏳**")
+        await asyncio.sleep(timer)
+        await protection.delete()
+
+        message_content = "**🔥 تم استخدام البوت بنجاح! 🔥**"
+        try:
+            await client.edit_message_text(sender, protection.message_id, message_content)
+        except errors.FloodWait as e:
+            await asyncio.sleep(e.seconds + 5)
+            await client.edit_message_text(sender, protection.message_id, message_content)
