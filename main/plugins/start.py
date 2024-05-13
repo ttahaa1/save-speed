@@ -5,7 +5,7 @@ from telethon import events, Button
 from .. import bot as Drone
 
 S = '/' + 's' + 't' + 'a' + 'r' + 't'
-BOT_CHANNEL_LINK = 'https://t.me/S_D_C_D'
+BOT_CHANNEL_LINK = 'https://t.me/tcrep1'
 
 image_urls = [
     "https://telegra.ph/file/beea93923bb8abd95bd8c.png"
