@@ -1,6 +1,6 @@
 {
     "name": "Save restricted content bot",
-    "description": " بوت تيليجرام لحفظ المحتوي من القنوات المقيده @tcrep1 -- Telegram bot to save restricted content.",
+    "description": "بوت تيليجرام لحفظ المحتوى من القنوات المقيدة @tcrep1 - Telegram bot to save restricted content.",
     "logo": "https://telegra.ph/file/9a475a189b8cbf68f3047.jpg",
     "keywords": [
         "telegram",
@@ -12,27 +12,23 @@
     "success_url": "https://t.me/tcrep1",
     "env": {
         "API_HASH": {
-            "description": "ادخل  API HASH تجيبه من هنا.telegram.org",
+            "description": "أدخل API HASH الذي تحصل عليه من هنا.telegram.org",
             "value": ""
         },
         "API_ID": {
-            "description": "ادخل API ID تجيبه من هنا.telegram.org",
+            "description": "أدخل API ID الذي تحصل عليه من هنا.telegram.org",
             "value": ""
         },
         "BOT_TOKEN": {
-            "description": "توكن بوتك, تجيبه من البوت دا  @BotFather.",
+            "description": "توكن البوت الخاص بك، يمكنك الحصول عليه من @BotFather.",
             "value": ""
         },
         "SESSION": {
-            "description": "Pyrogram string session الجلسه .",
+            "description": "جلسة سلسلة Pyrogram.",
             "value": ""
         },
         "AUTH": {
-            "description": "ايدي المالك للبوت id.",
-            "value": ""
-        },
-        "FORCESUB": {
-            "description": "اسم قناة الاشتراك الاجباري لبوتك مهم ولا تنسا رفع البوت ادمن في القناه مهم جدا '@'.",
+            "description": "ايدي مالك البوت.",
             "value": ""
         }
     },
