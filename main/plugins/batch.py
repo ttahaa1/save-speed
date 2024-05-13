@@ -3,7 +3,7 @@ import asyncio
 
 batch = []
 
-@Drone.on(events.NewMessage(incoming=True, from_users=AUTH, pattern='/cancel'))
+@Bot.on(events.NewMessage(incoming=True, from_users=AUTH, pattern='/cancel'))
 async def cancel(event):
     if not event.sender_id in batch:
         return await event.reply("**❌ لا يوجد دفعة نشطة. ❌**")
@@ -18,13 +18,13 @@ async def save_file(client, sender, link, filename):
     except Exception as e:
         await client.send_message(sender, f"فـشـل فـي الـحـفـظ: {link}\nالـخـطـأ: {e}")
 
-@Drone.on(events.NewMessage(incoming=True, from_users=AUTH, pattern='/batch'))
+@Bot.on(events.NewMessage(incoming=True, from_users=AUTH, pattern='/batch'))
 async def _batch(event):
     if not event.is_private:
         return
     if event.sender_id in batch:
         return await event.reply("**❌ لقد بدأت بالفعل دفعة واحدة، انتظر حتى تكتمل يا مالك الغباء! ❌**")
-    async with Drone.conversation(event.chat_id) as conv: 
+    async with Bot.conversation(event.chat_id) as conv: 
         await conv.send_message("**📩 أرسل لي رابط الرسالة التي تريد بدء الحفظ منها كرد على هذه الرسالة. 📩**", buttons=Button.force_reply())
         try:
             link = await conv.get_reply()
@@ -67,20 +67,4 @@ async def run_batch(userbot, client, sender, link, _range):
             await client.send_message(sender, "**✅ تم الانتهاء من الدفعة. ✅**")
             break
         try:
-            await get_bulk_msg(userbot, client, sender, link, i) 
-        except FloodWait as fw:
-            if int(fw.x) > 299:
-                await client.send_message(sender, "**❌ إلغاء الدفعة لأن لديك انتظار للتحكم في الفيض أكثر من 5 دقائق. ❌**")
-                break
-            await asyncio.sleep(fw.x + 5)
             await get_bulk_msg(userbot, client, sender, link, i)
-        protection = await client.send_message(sender, f"**⏳ جاري الانتظار لـ `{timer}` ثانية لتجنب الانتظارات الناتجة عن الفيض وحماية الحساب! ⏳**")
-        await asyncio.sleep(timer)
-        await protection.delete()
-
-        message_content = "**🔥 تم استخدام البوت بنجاح! 🔥**"
-        try:
-            await client.edit_message_text(sender, protection.message_id, message_content)
-        except errors.FloodWait as e:
-            await asyncio.sleep(e.seconds + 5)
-            await client.edit_message_text(sender, protection.message_id, message_content)
