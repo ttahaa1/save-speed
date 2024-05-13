@@ -1,4 +1,5 @@
-import time, os
+import os
+import asyncio
 
 from .. import bot as Drone
 from .. import userbot, Bot
